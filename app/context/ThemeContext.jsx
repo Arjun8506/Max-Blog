@@ -2,10 +2,20 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext();
 
-export const useThemeContext = () => useContext(ThemeContext);
+export const useThemeContext = () => {
+  const context = useContext(ThemeContext);
+
+  if (!context) {
+    throw new Error(
+      "useThemeContext must be used within a ThemeContextProvider"
+    );
+  }
+
+  return context;
+};
 
 export const ThemeContextProvider = ({ children }) => {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     const root = window.document.documentElement;
